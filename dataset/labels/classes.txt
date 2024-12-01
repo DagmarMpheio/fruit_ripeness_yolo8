@@ -1,23 +1,16 @@
-Banana Madura
 Banana Verde
 Banana Semi Madura
-Morango Verde
-Morango Semi Maduro
-Morango Maduro
-Morango Super Maduro
-Morango Podre
-Morango Super Podre
-Banana Super Madura
+Banana Madura
 Banana Podre
-Abacate Verde
-Abacate Semi Verde
-Abacate Maduro
-Abacate Super Maduro
-Abacate Podre
-Laranja Madura
-Laranja Verde
+Morango Podre
+Morango Super Maduro
+Morango Maduro
+Morango Semi Maduro
+Morango Verde
+Banana Super Madura
 Maçã Madura
 Maçã Podre
 Laranja Podre
-Maçã Semi Madura
+Laranja Verde
+Laranja Madura
 Maçã Verde
