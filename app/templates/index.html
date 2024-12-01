@@ -1,42 +1,54 @@
 {% extends 'layouts.html' %} {% block body %}
-  <div class="">
-    <h1 class="text-xl uppercase font-bold text-center py-3">
-      Sistema de Detecção do uso de capacete em Motoqueiro
-    </h1>
-    <p class="text-justify px-24 pt-8 text-lg">
-      Esta aplicação permite detectar e classificar, se o motoqueiro esta a usar o
-      capacete ou não em vias públicas, isto é, em imagens, vídeo e em tempo real.
-    </p>
-    <br><br>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2 px-24 mt-4 mb-4">
-      <div class="h-64 w-full flex items-center justify-center mb-4">
-        <img class="w-full h-full object-cover rounded-md" src="{{ url_for('static', filename='images/teste_motoqueiro_12.jpg') }}" alt="Imagem Original" title="Imagem Original">
-      </div>
-      <div class="h-64 w-full flex items-center justify-center mb-4">
-          <img class="w-full h-full object-cover rounded-md" src="{{ url_for('static', filename='images/teste_motoqueiro_12_1.jpg') }}" alt="Imagem Detectada" title="Imagem Detectada">
-      </div>
+
+<div class="">
+  <h1 class="text-xl uppercase font-bold text-center py-3">
+    Sistema de Detecção do uso de capacete em Motoqueiro
+  </h1>
+  <p class="text-justify px-24 pt-5 text-lg">
+    Esta aplicação permite detectar e classificar, se o motoqueiro esta a usar o
+    capacete ou não em vias públicas, isto é, em imagens, vídeo e em tempo real.
+  </p>
+  <h1 class="text-xl uppercase font-bold text-center py-2">
+    Deteccão em imagem
+  </h1>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2 px-24 mt-5 mb-4">
+    <div>
+      <img class="w-full h-full object-cover rounded-md" controls autoplay muted title="Imagem Original"
+        src="{{ url_for('static', filename='images/teste_motoqueiro_12.jpg') }}" alt="Imagem Original">
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2 px-24 mt-5 mb-4"> <!-- Adicione margem inferior aqui -->
-      <!-- Videos -->
-      <div class="h-48 w-full flex items-center justify-center">
-        <video class="w-full h-full object-cover rounded-md" controls autoplay muted title="Vídeo Original">
-            <source src="{{ url_for('static', filename='images/input-video.mp4') }}" type="video/mp4">
-        </video>
-      </div>
-    
-      <div class="h-48 w-full flex items-center justify-center">
-        <video class="w-full h-full object-cover rounded-md" controls autoplay muted title="Vídeo Detectado">
-          <source src="{{ url_for('static', filename='images/output-video.mkv') }}" type="video/mp4">
-        </video>
-      </div>
-      
+    <div>
+      <img class="w-full h-full object-cover rounded-md" controls autoplay muted title="Imagem Detectada"
+        src="{{ url_for('static', filename='images/teste_motoqueiro_12_1.jpg') }}" alt="Imagem Detectada">
     </div>
-    
-    <p class="text-justify px-24 text-lg pb-4" id="yolo" title="Sobre o YOLO">
-      O YOLO é o algoritmo que está fazendo grandes ondas nas comunidades de visão
-      computacional e aprendizado de máquina. Estas tecnologia de visão
-      computacional que localiza e identifica objetos em uma imagem.
-    </p>
-    <br>
-</div>
+  </div>
+
+  <!-- Espaço entre linhas -->
+  <!-- <div class="w-full md:hidden mt-4"></div> -->
+
+  <h1 class="text-xl uppercase font-bold text-center py-2">
+    Deteccão em vídeos
+  </h1>
+
+  <!-- Videos -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2 px-24 mt-5 mb-4">
+    <!-- Adicione margem inferior aqui -->
+    <!-- Videos -->
+    <div class="h-72 w-full flex items-center justify-center">
+      <video class="w-full h-full object-cover rounded-md" controls autoplay muted loop title="Vídeo Original">
+        <source src="{{ url_for('static', filename='videos/18-teste-original.mp4') }}" type="video/mp4">
+      </video>
+    </div>
+
+    <div class="h-72 w-full flex items-center justify-center">
+      <video class="w-full h-full object-cover rounded-md" controls autoplay muted loop title="Vídeo Detectado">
+        <source src="{{ url_for('static', filename='videos/18-teste-detectado.mkv') }}" type="video/mp4">
+      </video>
+    </div>
+
+  </div>
+  <p class="text-justify py-2 px-24 text-lg">
+    O YOLO é o algoritmo que está fazendo grandes ondas nas comunidades de visão
+    computacional e aprendizado de máquina. Estas tecnologia de visão
+    computacional que localiza e identifica objetos em uma imagem
+  </p>
 {% endblock %}

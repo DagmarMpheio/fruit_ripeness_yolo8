@@ -1,12 +1,19 @@
 document.querySelectorAll('.dropzone_input').forEach(inputElement => {
     const dropzoneElement = inputElement.closest('.dropzone');
+    const removeButton = dropzoneElement.querySelector('.remove-button');
+
     dropzoneElement.addEventListener('click', e => {
       inputElement.click();
     });
+
     inputElement.addEventListener('change', e => {
       if (inputElement.files.length) {
         updateThumbnail(dropzoneElement, inputElement.files[0]);
       }
+    });
+
+    removeButton.addEventListener('click', e => {
+      removeThumbnail(dropzoneElement);
     });
   
     dropzoneElement.addEventListener('drop', e => {
@@ -16,6 +23,7 @@ document.querySelectorAll('.dropzone_input').forEach(inputElement => {
         updateThumbnail(dropzoneElement, e.dataTransfer.files[0]);
       }
     });
+
   });
   
   function updateThumbnail(dropzoneElement, file) {
@@ -39,5 +47,19 @@ document.querySelectorAll('.dropzone_input').forEach(inputElement => {
     } else {
       thumbnailElement.style.backgroundImage = null;
     }
+  }
+
+
+  function removeThumbnail(dropzoneElement) {
+    const thumbnailElement = dropzoneElement.querySelector('.dropzone_thumb');
+    const inputElement = dropzoneElement.querySelector('.dropzone_input');
+
+    if (thumbnailElement) {
+      thumbnailElement.remove();
+    }
+    if (inputElement) {
+      inputElement.value = ''; // Reset input value to clear selected file
+    }
+    dropzoneElement.querySelector(".dropzone_prompt").value = "Seleccione uma imagem ou vídeo";
   }
   

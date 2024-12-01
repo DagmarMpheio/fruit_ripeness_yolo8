@@ -7,7 +7,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>App</title>
 	<link rel="stylesheet" href="{{url_for('static',filename='css/output.css')}}" />
-	<!-- <link rel="stylesheet" href="{{url_for('static',filename='dist/css/output.css')}}" /> -->
 	<link rel="stylesheet" href="{{url_for('static',filename='css/animate.css')}}"/>
 	<link rel="stylesheet" href="{{url_for('static',filename='css/fontawesome/css/all.min.css')}}"/>
 	<link rel="stylesheet" href="{{url_for('static',filename='css/fontawesome/css/v4-shims.min.css')}}"/>
@@ -44,19 +43,36 @@
 			display: none;
 			height: 100%
 		}
+		.cor_top {
+			background-color: rgba(47, 123, 185, 0.932);
+		}
+
+		/* Estilos CSS para a classe 'active-route' */
+		.active-route {
+			padding: 3px;
+			background-color:rgba(29, 66, 99, 0.932);
+			color: #fff;
+			font-weight: bold;
+			border-radius: 5px;
+		}
+
 	</style>
 </head>
-
-<body class="max-w-6xl mx-auto bg-gray-200">
-	<header class="md:flex justify-between md:items-center shadow-lg bg-purple-800 
+<div class="cor_top">
+<body class="max-w-6xl mx-auto bg-gray-200 ">
+	<header id="cor_top" class="md:flex justify-between md:items-center shadow-lg 
 	py-1 text-white px-24">
 		<div class="flex justify-between items-center">
 			<div class="flex space-x-3 items-center">
-				<img class="w-20 h-20" src="{{ url_for('static', filename='images/SisMoto.png') }}" alt="Image" />
-				<h4 class="text-3xl font-bold tracking-wider
-					 uppercase text-white">
-					SISDET
-				</h4>
+				<a href="/">
+					<img class="w-20 h-20" src="{{ url_for('static', filename='images/SisMoto.png') }}" alt="Image" />
+				</a>
+				<a href="/">
+					<h4 class="text-3xl font-bold tracking-wider
+						uppercase text-white">
+						SISDET
+					</h4>
+				</a>
 			</div>
 			<div class="md:hidden block">
 				<button id="menu-open" class="hamburger">
@@ -71,18 +87,19 @@
 			</div>
 		</div>
 		<nav id="menu-items" class="hidden md:block">
+			{% set current_route = request.endpoint %}
 			<ul class="md:flex gap-3 text-lg font-semibold">
 				<a href="/" class="hover:border-b 
 				hover:ease-in-out 
 				 hover:border-purple-300 hover:duration-500
 				hover:text-purple-300">
-					<li>Home</li>
+					<li {% if current_route == 'home' %}class="active-route"{% endif %}>Home</li>
 				</a>
 				<a href="/deteccao" class="hover:border-b 
 				hover:ease-in-out 
 				 hover:border-purple-300 hover:duration-500
 				hover:text-purple-300">
-					<li>Detecção</li>
+					<li {% if current_route == 'deteccao' %}class="active-route"{% endif %}>Detecção</li>
 				</a>
 				<!-- <a href="#" class="hover:border-b 
 				hover:ease-in-out 
@@ -94,17 +111,17 @@
 				hover:ease-in-out 
 				 hover:border-purple-300 hover:duration-500
 				hover:text-purple-300">
-					<li class="animated backInDown">Relatório</li>
+					<li class="{% if current_route == 'relatorio' %} active-route {% endif %} animated backInDown">Relatório</li>
 				</a>
 			</ul>
 		</nav>
 	</header>
 	<div class=" bg-white">{% block body %}{% endblock %}</div>
-	<footer class="flex-1 bg-red-500 py-4 text-white uppercase text-center font-semibold text-sm">
-		<h1>Todos direitos reservados &copy; 2023</h1>
+	<footer class="flex-1 bg-gray-800 py-4 text-white uppercase text-center font-semibold text-sm ">
+		<h1>Todos direitos reservados &copy; 2024</h1>
 	</footer>
 	<script src="{{url_for('static',filename='js/menu.js')}}"></script>
 	<script src="{{url_for('static',filename='js/main.js')}}"></script>
 </body>
-
+</div>
 </html>
