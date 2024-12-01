@@ -206,7 +206,7 @@ def display(filename):
         latest_file_not_detected = os.path.join(uploads_folder, filename)
     environ = request.environ
 
-    if file_extension == 'jpg' or  file_extension == 'jpg' or file_extension == 'png':
+    if file_extension == 'jpg' or  file_extension == 'jpeg' or file_extension == 'png':
         # Copiar o arquivo para o diretório de destino
         shutil.copy(filename, 'static/deteccoes-imagens')
 
