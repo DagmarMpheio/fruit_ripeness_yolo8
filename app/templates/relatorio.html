@@ -1,0 +1,77 @@
+{% extends 'layouts.html' %} {% block body %} 
+
+{% if data %}
+    <div class="mx-8 py-4">
+        <!--MENSAGEM DE Sucesso-->
+		{% with messages = get_flashed_messages() %}
+            {% if messages %}
+                    {% for message in messages %}
+                    <div id="alert-border-3" class="flex items-center p-4 mb-4 text-green-800 border-t-4 border-green-300 bg-green-50 dark:text-green-400 dark:bg-gray-800 dark:border-green-800" role="alert">
+                        <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                        </svg>
+                        <div class="ms-3 text-sm font-medium">
+                            {{message}}
+                        </div>
+                    </div>                  
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <h2 class="text-xl mb-2 font-bold">Histórico de Detenção</h2>
+        <div class="flex flex-col mb-4">
+            <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                    <div class="overflow-hidden">
+                    <table class="min-w-full text-center text-sm font-light">
+                        <thead
+                        class="border-b bg-purple-800 font-medium dark:border-purple-500 dark:text-purple-800">
+                        <tr class="text-white">
+                            <th scope="col" class=" px-6 py-4">#</th>
+                            <th scope="col" class=" px-6 py-4">Detenções com Capacete</th>
+                            <th scope="col" class=" px-6 py-4">Detenções sem Capacete</th>
+                            <th scope="col" class=" px-6 py-4">Acções</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for dados in dados_tabela%}
+                            <tr class="border-b dark:border-purple-500">
+                                <td class="whitespace-nowrap  px-6 py-4 font-medium">{{ loop.index }}</td>
+                                <td class="whitespace-nowrap  px-6 py-4">{{dados[2]}}</td>
+                                <td class="whitespace-nowrap  px-6 py-4">{{dados[3]}}</td>
+                                <td class="whitespace-nowrap  px-6 py-4">
+                                    <form action="{{ url_for('delete_history', id=dados[0]) }}" method="post">
+                                        <button class="bg-red-500 px-4 py-2 rounded-md text-lg text-white" id="submitButton" type="submit" title="Excluir">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="width: 70%; margin: auto">
+        <h2 class="text-xl mb-2 font-bold">Relatório Gráfico</h2>
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/chart.min.js') }}"></script>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chartData = {{ data | tojson | safe }};
+
+        new Chart(ctx, {
+                    type: 'bar',
+                    data: chartData,
+                });
+    </script>
+
+{% else %}
+    <p class="text-center py-8">{{ message }}</p>
+{% endif %} {% endblock %}

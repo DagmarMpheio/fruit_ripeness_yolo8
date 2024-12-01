@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href={{url_for('static' , filename='css/normalize.css' )}}>
+    <link rel="stylesheet" href={{url_for('static' , filename='css/grid.css' )}}>
+    <link rel='stylesheet' href={{url_for('static' , filename='css/styleSucc.css' )}}>
+
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;1,300&display=swap"
+        rel="stylesheet" type='text/css'>
+    <link rel="stylesheet" href={{url_for('static' , filename='css/bootstrap.min.css' )}}>
+    <title>Página de Resultados</title>
+
+    <style type="text/css">
+        th {
+            text-align: center;
+            font-size: 20px;
+			padding: 10px;
+        }
+
+        td {
+            text-align: center;
+            font-size: 18px;
+			padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="second-main" style="height: 100%; width: 100%;">
+        <nav>
+            <ul style="padding-right: 2%;" class="main-nav">
+                <li><a href="/">Página Principal</a></li>
+            </ul>
+
+        </nav>
+        <div class="header">
+            <row style="width: 100% ; display: flex; justify-content: center;">
+                <h3 class="header-text">Imagem Classificada</h3>
+            </row>
+            <row style="width: 100% ; display: flex; justify-content: center;">
+                <img class="result-img" src={{url_for('static', filename='images/' + img)}}>
+            </row>
+        </div>
+
+        <div class="info">
+
+            <row style="width: 100%; display: flex; justify-content: center;">
+                <h3 class="header-text">Classificação do Modelo</h3>
+            </row>
+            <row style="width: 100%; display: flex; justify-content: center; padding-bottom: 50px;">
+                <table class="table-bordered table-stripped text-light table-custom">
+                    <tr>
+                        <th>Ranking</th>
+                        <th>Classe</th>
+                        <th width="100">Estado de Maturação</th>
+                        <th>Probabilidade</th>
+                    </tr>
+                    <tr>
+                        <td>1º</td>
+                        <td>{{ predictions.class1 }}</td>
+                        <td>{{ predictions.freshness1 }}</td>
+                        <td>{{ predictions.prob1 }} %</td>
+                    </tr>
+                    <tr>
+                        <td>2º</td>
+                        <td>{{ predictions.class2 }}</td>
+                        <td>{{ predictions.freshness1 }}</td>
+                        <td>{{ predictions.prob2 }} %</td>
+                    </tr>
+                </table>
+            </row>
+        </div>
+    </div>
+</body>
+
+</html>

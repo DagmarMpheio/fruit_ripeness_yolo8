@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dados</title>
+	</head>
+	<body>
+		<h1>Guardar os dados</h1>
+		<form action="/guardar" method="post" enctype="multipart/form-data">
+			<label for="image">Image:</label>
+			<input type="file" name="image" id="image" required />
+			<br />
+			<label for="n_com_capacete">Motoqueiros com capacete:</label>
+			<input
+				type="number"
+				name="n_com_capacete"
+				id="n_com_capacete"
+				required
+				min="0"
+			/>
+			<br />
+			<label for="n_sem_capacete">Motoqueiros sem capacete:</label>
+			<input
+				type="number"
+				name="n_sem_capacete"
+				id="n_sem_capacete"
+				required
+				min="0"
+			/>
+			<br />
+			<button type="submit">Guardar</button>
+		</form>
+		<!-- 
+    <h2>Uploaded Images:</h2>
+    <ul>
+        {% for image in images %}
+            <li>
+                <img src="{{ url_for('static', filename='upload/' + image[1]) }}"
+                 width="150">
+                {{ image[2] }}
+            </li>
+        {% endfor %}
+    </ul> -->
+	</body>
+</html>

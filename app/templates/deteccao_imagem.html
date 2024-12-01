@@ -1,0 +1,115 @@
+{% extends 'layouts.html' %} {% block body %}
+<div class="container">
+	<div class="w-2/4 mx-auto bg-red-600">
+		<form class="form-signin mx-auto w-96 
+	max-w-7xl flex flex-col items-center justify-center" method=post enctype=multipart/form-data name="form1"
+			id="data-form">
+			<label for="image_ou_video" class="h3 font-normal text-xl">Insira uma imagem ou vídeo</label>
+			<div class="text-red-500 mb-2
+		px-4 py-2 w-1/3 text-center" id="messageErro"></div>
+			<div class="border-dashed border cursor-pointer rounded-md text-xl
+		border-green-400 max-w-6xl h-96 w-[600px] px-2 flex items-center justify-center
+		dropzone">
+				<!-- <div class="dropzone_thumb" data-label="mota.txt"></div> -->
+				<span class="dropzone_prompt">Seleccione uma imagem ou vídeo</span>
+				<input type="file" accept="image/*, video/*" name="file" class="dropzone_input" id="image_ou_video"
+					required>
+			</div>
+			<!--    <div class="mb-5">
+		  <label for="imagem" class="block text-gray-700 text-sm mb-2">Imagem</label>
+		  <div class="dropzone rounded-md bg-gray-100">
+		  </div>
+		  <p id="error"></p>
+		</div> -->
+			<button class="bg-green-600 text-white py-2 tracking-widest
+		rounded-md shadow-md mt-3 w-full max-w-screen-sm px-8 uppercase font-black" type="submit"
+				onClick="validar()">Detectar</button>
+
+			<div id="messageErro"></div>
+		</form>
+	</div>
+	<!-- <img id="my-image" src="{{ url_for('show_image',  filename='teste_motoqueiro_17.jpg') }}"
+					style="height:300px; width:300px" /> -->
+	<div class="flex flex-col items-center justify-center mx-auto">
+		{% if latest_file %}
+		<div class="flex justify-between gap-x-4 
+		items-center">
+			<!-- detected image display -->
+			<div>
+				<h2 class="mb-6">Imagem Original:</h2>
+				<img id="my-image" src="{{ url_for('show_image',  filename=latest_file) }}"
+					style="height:300px; width:300px" />
+			</div>
+			<div>
+				<h2 class="mb-6">Imagem com as detenções:</h2>
+				<img id="my-image" src="{{ url_for('static', filename='detencoes'+'/'+latest_file) }}"
+					style="height:300px; width:300px;" />
+			</div>
+		</div>
+		<div>
+			<form action="/guardar" method="post" enctype="multipart/form-data">
+				<label for="image">Imagem:</label>
+				<br />
+				<!-- <input type="file" name="image" id="image" required /> -->
+				<input type="text" name="image" id="image" class="w-full block px-3 py-2 bg-gray-100"
+					value="{{ latest_file }}" required disabled/>
+				<br />
+				<label for="n_com_capacete">Motoqueiros com capacete:</label>
+				<input type="number" name="n_com_capacete" id="n_com_capacete" required
+					class="w-full block px-3 py-2 bg-gray-100" min="0" placeholder="Motoqueiros com capacete" />
+				<br />
+				<label for="n_sem_capacete">Motoqueiros sem capacete:</label>
+				<input type="number" name="n_sem_capacete" id="n_sem_capacete"
+					class="w-full block px-3 py-2 bg-gray-100" required min="0"
+					placeholder="Motoqueiros sem capacete" />
+				<br />
+				<button class="w-full block rounded-md py-3 bg-green-600
+				uppercase text-white font-bold cursor-pointer" type="submit">Guardar</button>
+			</form>
+		</div>
+			{% endif %}
+	</div>
+	<br>
+</div>
+
+<!-- <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("data-form");
+        const responseDiv = document.getElementById("messageErro");
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault(); 
+
+            const formData = new FormData(form);
+
+            fetch("/deteccao", {
+                method: "POST",
+                body: formData,
+            })
+            .then((response) => response.text())
+            .then((data) => {
+                responseDiv.innerHTML = data;
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+        });
+    });
+</script> -->
+
+<script>
+	function validar() {
+		var inputFile = document.getElementById('image_ou_video');
+		var ficheiro = inputFile.files[0];
+		var validarMessage = document.getElementById('messageErro');
+		if (!ficheiro) {
+			validarMessage.innerHTML = 'Nenhum ficheiro carregado';
+			return;
+		}
+		if (!ficheiro.type.startsWith('image/') && !ficheiro.type.startsWith('video/')) {
+			validarMessage.innerHTML = 'O arquivo seleccionado não é uma imagem ou vídeo válido.';
+			return;
+		}
+	}
+</script>
+{% endblock %}

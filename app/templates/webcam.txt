@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Webcam com YOLO em Flask</title>
+</head>
+<body>
+    <h1>Webcam com YOLO em Flask</h1>
+    <button id="start" onclick="startWebcam()">Iniciar Webcam</button>
+    <div id="video-container">
+        <img id="video">
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+    <script>
+        const socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        const videoContainer = document.getElementById('video-container');
+        const video = document.getElementById('video');
+        const startButton = document.getElementById('start');
+        let videoStream;
+
+        function startWebcam() {
+            const constraints = { video: { facingMode: 'environment' } };
+
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then(function(stream) {
+                    videoStream = stream;
+                    videoContainer.style.display = 'block';
+                    video.srcObject = stream;
+                    startButton.style.display = 'none';
+
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+
+                    setInterval(function() {
+                        context.drawImage(video, 0, 0, video.width, video.height);
+                        const image_data = canvas.toDataURL('image/jpeg', 0.5);
+                        socket.emit('image', image_data);
+                    }, 100);
+                })
+                .catch(function(err) {
+                    console.error('Erro ao acessar a webcam: ', err);
+                });
+        }
+
+        socket.on('response', function(data) {
+            const img = new Image();
+            img.src = 'data:image/jpeg;base64,' + data.image_data;
+            document.body.appendChild(img);
+        });
+    </script>
+</body>
+</html>
