@@ -29,7 +29,7 @@ app.secret_key = b'8\xbfYs/\x90\xa7\xceO\x0f]\xfc\xb1\xb6\xe7\x9dm\x1d-\x96\xa3l
 BASE_PATH = os.getcwd()
 UPLOAD_PATH = os.path.join(BASE_PATH, 'static/uploads/')
 DATABASE_PATH = os.path.join(BASE_PATH, 'static/database/')
-DATABASE = os.path.join(DATABASE_PATH, 'motoqueiro.db')
+DATABASE = os.path.join(DATABASE_PATH, 'fruits.db')
 
 
 @app.route('/')
