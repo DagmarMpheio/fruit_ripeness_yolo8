@@ -2,10 +2,12 @@ import os
 import argparse
 import cv2
 
-from flask import Flask, render_template, request, send_file, redirect, url_for, Response, flash
+from flask import Flask, render_template, request, send_file, redirect, url_for, Response, flash, abort
 import shutil
 import time
 import sqlite3
+
+import mimetypes
 
 from ultralytics import YOLO
 
@@ -40,7 +42,6 @@ def deteccao():
     original_video_output = None  # Nome do vídeo processado
     original_video_output_name = None  # Nome do vídeo processado
 
-
     if request.method == "POST":
         if 'file' in request.files:
             f = request.files['file']
@@ -59,16 +60,38 @@ def deteccao():
             # print("extensao: ",file_extension)
 
             # se na requisicao tiver um ficheiro e está de acordo com as extensões permitidas, faça
-            if file_extension == 'jpg' or file_extension == 'png' or file_extension == 'gif' or file_extension == 'jpeg':
+            if file_extension in {'jpg', 'jpeg', 'png', 'gif', 'webp'}:
+                # Converter o arquivo para .jpg, se necessário
+                if file_extension == 'jpeg' or file_extension == 'webp':
+                    new_filename = f.filename.rsplit(
+                        '.', 1)[0] + '.jpg'  # Alterar extensão para .jpg
+                else:
+                    new_filename = f.filename
+
                 filepath = os.path.join(
-                    basepath, 'static/uploads-imagens', f.filename)
-                print("upload folder is ", filepath)
+                    basepath, 'static/uploads-imagens', new_filename)
+                print("Upload folder is ", filepath)
                 f.save(filepath)
 
-                img = cv2.imread(filepath)
-                # print("img: ",img)
+                # Abrir a imagem e salvar novamente como .jpg, se necessário
+                if file_extension in {'jpeg', 'png', 'gif', 'webp'}:
+                    print(f"Convertendo {f.filename} para {new_filename}")
+                    img = cv2.imread(filepath)
+                    # Sobrescrevendo com o formato .jpg
+                    cv2.imwrite(filepath, img)
 
-                # YOLO na Detenção de imagens como base no modelo escolhido
+                # Verificar a resolução da imagem
+                img = cv2.imread(filepath)
+                height, width = img.shape[:2]
+                if height > 640 or width > 640:
+                    print(
+                        f"Redimensionando imagem de {width}x{height} para 640x640")
+                    img = cv2.resize(
+                        img, (640, 640), interpolation=cv2.INTER_AREA)
+                    # Sobrescrever o arquivo redimensionado
+                    cv2.imwrite(filepath, img)
+
+                # YOLO na detecção de imagens com base no modelo escolhido
                 if modelo_nome == 'Medium':
                     model = YOLO('M_best.pt')
                 elif modelo_nome == 'Nano':
@@ -76,10 +99,9 @@ def deteccao():
                 else:
                     model = YOLO('S_best.pt')
 
+                # Inferência com a versão final do arquivo convertido e redimensionado
                 model.predict(filepath, save=True)
-                # print("yolo: ",model)
-
-                return display(f.filename)
+                return display(new_filename)
 
             elif file_extension == 'mp4' or file_extension == 'mkv' or file_extension == 'avi' or file_extension == 'flv':
                 filepath = os.path.join(
@@ -94,10 +116,10 @@ def deteccao():
                 frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
                 frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
-               
                 # Definir o codec e criar o objecto VideoWrite
-                #fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-                fourcc = cv2.VideoWriter_fourcc(*'X264')  # Usando o codec X264 para MKV
+                # fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+                # Usando o codec X264 para MKV
+                fourcc = cv2.VideoWriter_fourcc(*'X264')
                 out = cv2.VideoWriter(
                     'static/deteccoes-videos/'+f.filename, fourcc, 30.0, (frame_width, frame_height))
 
@@ -116,11 +138,11 @@ def deteccao():
 
                     # Fazer a detenção do YOLO vc8 nos frames aqui
                     results = model(frame, save=True)
-                    print("results: ",results)
+                    print("results: ", results)
                     cv2.waitKey(1)
 
                     res_plotted = results[0].plot()
-                    #cv2.imshow("result", res_plotted)
+                    # cv2.imshow("result", res_plotted)
 
                     # Escrever o video da saida
                     out.write(res_plotted)
@@ -131,9 +153,9 @@ def deteccao():
 
                     if cv2.waitKey(1) == ord('q'):
                         break
-                #return display(f.filename)
+                # return display(f.filename)
 
-                #return video_feed()
+                # return video_feed()
                 return display_video(video_output_path, original_video_output, original_video_output_name)
 
         # return render_template("deteccao_imagem.html", upload=True)
@@ -153,10 +175,22 @@ def deteccao():
 
 @app.route('/show_image/<filename>')
 def show_image(filename):
-    uploads_folder = os.path.join(app.root_path+"/static", 'uploads-imagens')
-    latest_file_not_detected = os.path.join(uploads_folder, filename)
-    print("latest_file_not_detected: ", latest_file_not_detected)
-    return send_file(latest_file_not_detected, mimetype='image/jpeg')
+    uploads_folder = os.path.join(app.root_path, "static", "uploads-imagens")
+    image_path = os.path.join(uploads_folder, filename)
+
+    # Verificar se o arquivo existe
+    if not os.path.isfile(image_path):
+        print(f"Arquivo não encontrado: {image_path}")
+        return abort(404, description="Imagem não encontrada")
+
+    # Detectar o MIME type com base na extensão do arquivo
+    mime_type, _ = mimetypes.guess_type(image_path)
+    if mime_type is None:
+        print(f"MIME type não detectado para o arquivo: {image_path}")
+        mime_type = 'application/octet-stream'  # Fallback para tipo genérico
+
+    print(f"Servindo arquivo: {image_path}, MIME type: {mime_type}")
+    return send_file(image_path, mimetype=mime_type)
 
 
 @app.route('/show_video/<filename>')
@@ -167,10 +201,11 @@ def show_video(filename):
     # mimetype='video/x-msvideo'
     return send_file(video_path, mimetype='video/x-msvideo')
 
+
 @app.route("/display_video/<video_path>")
 def display_video(video_path, original_video_path, original_video_output_name):
-    #video_path = f'static/deteccoes-videos/{video_path}'
-    return render_template('video_display.html', video_path=video_path, original_video_path=original_video_path, original_video_output_name = original_video_output_name)
+    # video_path = f'static/deteccoes-videos/{video_path}'
+    return render_template('video_display.html', video_path=video_path, original_video_path=original_video_path, original_video_output_name=original_video_output_name)
 
 
 @app.route('/image/<path:filename>')
@@ -198,7 +233,7 @@ def display(filename):
     file_extension = filename.rsplit('.', 1)[1].lower()
     print("Extensao do ficheiro: ", file_extension)
 
-    if file_extension == 'jpg' or file_extension=='png':
+    if file_extension == 'jpg' or file_extension == 'png':
         uploads_folder = os.path.join(app.root_path, 'static/uploads-imagens')
         latest_file_not_detected = os.path.join(uploads_folder, filename)
     else:
@@ -206,7 +241,7 @@ def display(filename):
         latest_file_not_detected = os.path.join(uploads_folder, filename)
     environ = request.environ
 
-    if file_extension == 'jpg' or  file_extension == 'jpeg' or file_extension == 'png':
+    if file_extension == 'jpg' or file_extension == 'jpeg' or file_extension == 'png' or file_extension == 'webp':
         # Copiar o arquivo para o diretório de destino
         shutil.copy(filename, 'static/deteccoes-imagens')
 
@@ -361,16 +396,18 @@ def video_feed():
     return Response(get_frame(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
+
 @app.route("/latest_video_feed")
 def latest_video_feed():
     videos_folder = os.path.join(app.static_folder, "deteccoes-videos")
     files = os.listdir(videos_folder)
     if not files:
         return "Nenhum vídeo encontrado"
-    
-    latest_file = max(files, key=lambda x: os.path.getmtime(os.path.join(videos_folder, x)))
+
+    latest_file = max(files, key=lambda x: os.path.getmtime(
+        os.path.join(videos_folder, x)))
     latest_file_path = os.path.join(videos_folder, latest_file)
-    
+
     return send_file(latest_file_path, mimetype='video/mp4')
 
 
