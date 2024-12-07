@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="{{url_for('static',filename='css/animate.css')}}"/>
 	<link rel="stylesheet" href="{{url_for('static',filename='css/fontawesome/css/all.min.css')}}"/>
 	<link rel="stylesheet" href="{{url_for('static',filename='css/fontawesome/css/v4-shims.min.css')}}"/>
-	<link rel="icon" href="{{ url_for('static', filename='images/SisMoto.png') }}" type="image/png">
+	<link rel="icon" href="{{ url_for('static', filename='images/app-logo.png') }}" type="image/png">
 
 	<!-- <link rel="stylesheet" href="{{url_for('static',filename='css/dropzone.min.css')}}" /> -->
 	<style>
@@ -44,16 +44,20 @@
 			height: 100%
 		}
 		.cor_top {
-			background-color: rgba(47, 123, 185, 0.932);
+			/* Verde vibrante para destacar o topo */
+			background-color: rgba(7, 192, 75, 0.932); /* Verde vibrante */
+			transition: background-color 0.3s ease; /* Transição suave */
 		}
 
 		/* Estilos CSS para a classe 'active-route' */
 		.active-route {
+			/* Destaque mais vivo com um laranja intenso e texto branco */
 			padding: 3px;
-			background-color:rgba(29, 66, 99, 0.932);
-			color: #fff;
+			background-color: rgba(255, 94, 58, 0.932);
+			color: #ffffff;
 			font-weight: bold;
 			border-radius: 5px;
+			transition: transform 0.2s ease, background-color 0.3s ease;
 		}
 
 	</style>
@@ -65,12 +69,12 @@
 		<div class="flex justify-between items-center">
 			<div class="flex space-x-3 items-center">
 				<a href="/">
-					<img class="w-20 h-20" src="{{ url_for('static', filename='images/SisMoto.png') }}" alt="Image" />
+					<img class="w-20 h-20" src="{{ url_for('static', filename='images/app-logo.png') }}" alt="Image" />
 				</a>
 				<a href="/">
 					<h4 class="text-3xl font-bold tracking-wider
-						uppercase text-white">
-						SISDET
+						 text-white italic">
+						FruitRipeness
 					</h4>
 				</a>
 			</div>
@@ -91,26 +95,26 @@
 			<ul class="md:flex gap-3 text-lg font-semibold">
 				<a href="/" class="hover:border-b 
 				hover:ease-in-out 
-				 hover:border-purple-300 hover:duration-500
-				hover:text-purple-300">
+				 hover:border-orange-500 hover:duration-500
+				hover:text-orange-500">
 					<li {% if current_route == 'home' %}class="active-route"{% endif %}>Home</li>
 				</a>
 				<a href="/deteccao" class="hover:border-b 
 				hover:ease-in-out 
-				 hover:border-purple-300 hover:duration-500
-				hover:text-purple-300">
+				 hover:border-orange-500 hover:duration-500
+				hover:text-orange-500">
 					<li {% if current_route == 'deteccao' %}class="active-route"{% endif %}>Detecção</li>
 				</a>
 				<!-- <a href="#" class="hover:border-b 
 				hover:ease-in-out 
-				 hover:border-purple-300 hover:duration-500
-				hover:text-purple-300">
+				 hover:border-orange-500 hover:duration-500
+				hover:text-orange-500">
 					<li>Webcam</li>
 				</a> -->
 				<a href="/relatorio" class="hover:border-b 
 				hover:ease-in-out 
-				 hover:border-purple-300 hover:duration-500
-				hover:text-purple-300">
+				 hover:border-orange-500 hover:duration-500
+				hover:text-orange-500">
 					<li class="{% if current_route == 'relatorio' %} active-route {% endif %} animated backInDown">Relatório</li>
 				</a>
 			</ul>

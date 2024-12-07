@@ -1,31 +1,34 @@
 {% extends 'layouts.html' %} {% block body %}
 
 <div class="">
-  <h1 class="text-xl uppercase font-bold text-center py-3">
-    Sistema de Detecção do uso de capacete em Motoqueiro
+  <h1 class="text-4xl font-bold text-center italic py-3 text-orange-500 underline decoration-green-500">
+    FruitRipeness
   </h1>
   <p class="text-justify px-24 pt-5 text-lg">
-    Esta aplicação permite detectar e classificar, se o motoqueiro esta a usar o
-    capacete ou não em vias públicas, isto é, em imagens, vídeo e em tempo real.
+    A presente aplicacao permite detectar e classificar o estado de maturação de 
+    uma fruta com recurso a inteligência artificial, utilizando com entrada imagens e vídeo, 
+    o que é bastante útil para o sector agricola, principalmente se a aplicação for utilizada 
+    por intermédio de drones, facto que permitirá ao agrónomo, camponês ou mesmo um entusiasta agrícola 
+    o momento certo de se fazer a colheita. 
   </p>
-  <h1 class="text-xl uppercase font-bold text-center py-2">
+  <h1 class="text-2xl uppercase font-bold text-center py-2 text-orange-500">
     Deteccão em imagem
   </h1>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2 px-24 mt-5 mb-4">
     <div>
       <img class="w-full h-full object-cover rounded-md" controls autoplay muted title="Imagem Original"
-        src="{{ url_for('static', filename='images/teste_motoqueiro_12.jpg') }}" alt="Imagem Original">
+        src="{{ url_for('static', filename='images/bananas.jpg') }}" alt="Imagem Original">
     </div>
     <div>
       <img class="w-full h-full object-cover rounded-md" controls autoplay muted title="Imagem Detectada"
-        src="{{ url_for('static', filename='images/teste_motoqueiro_12_1.jpg') }}" alt="Imagem Detectada">
+        src="{{ url_for('static', filename='images/bananas-result.jpg') }}" alt="Imagem Detectada">
     </div>
   </div>
 
   <!-- Espaço entre linhas -->
   <!-- <div class="w-full md:hidden mt-4"></div> -->
 
-  <h1 class="text-xl uppercase font-bold text-center py-2">
+  <h1 class="text-2xl uppercase font-bold text-center py-2 text-orange-500">
     Deteccão em vídeos
   </h1>
 
@@ -47,8 +50,9 @@
 
   </div>
   <p class="text-justify py-2 px-24 text-lg">
-    O YOLO é o algoritmo que está fazendo grandes ondas nas comunidades de visão
-    computacional e aprendizado de máquina. Estas tecnologia de visão
-    computacional que localiza e identifica objetos em uma imagem
+    O YOLO (You Only Look Once) é um modelo de detecção de objetos em tempo real, 
+    amplamente utilizado em sistemas de visão computacional. Ele realiza a detecção de objetos 
+    de forma rápida e eficiente, dividindo a imagem em uma grade e, em seguida, 
+    fazendo previsões sobre a presença e localização dos objetos dentro dessas células da grade.
   </p>
 {% endblock %}
