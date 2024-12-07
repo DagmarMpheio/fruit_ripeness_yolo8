@@ -67,29 +67,46 @@
 
     </div>
 
-    <div class="flex flex-col mx-auto justify-center items-center">
+   <!--  <div class="flex flex-col mx-auto justify-center items-center">
         <div class="">
             <form action="/guardar" method="post" enctype="multipart/form-data">
                 <label for="imagem">Video: {{ original_video_output_name }}</label>
                 <br />
-                <!-- <input type="file" name="image" id="image" required /> -->
+
                 <input type="hidden" name="imagem" id="imagem" class="w-full block px-3 py-2 bg-gray-100"
                     value="{{ original_video_output_name }}" required/>
                 <br />
-                <label for="n_com_capacete">Motoqueiros com capacete:</label>
-                <input type="number" name="n_com_capacete" id="n_com_capacete" required
-                    class="w-full block px-3 py-2 bg-gray-100" min="0" value="0" placeholder="Motoqueiros com capacete" />
-                <br />
-                <label for="n_sem_capacete">Motoqueiros sem capacete:</label>
-                <input type="number" name="n_sem_capacete" id="n_sem_capacete"
-                    class="w-full block px-3 py-2 bg-gray-100" required min="0" value="0"
-                    placeholder="Motoqueiros sem capacete" />
-                <br />
+                <label for="fruta_verde">Frutas verdes:</label>
+				<input type="number" name="fruta_verde" id="fruta_verde" required
+					class="w-full block px-3 py-2 bg-gray-100" min="0" value="0" placeholder="Frutas verdes" />
+				<br />
+
+				<label for="fruta_semi_madura">Frutas semi maduras:</label>
+				<input type="number" name="fruta_semi_madura" id="fruta_semi_madura"
+					class="w-full block px-3 py-2 bg-gray-100" required min="0" value="0"
+					placeholder="Frutas semi maduras" />
+				<br />
+
+				<label for="fruta_madura">Frutas maduras:</label>
+				<input type="number" name="fruta_madura" id="fruta_madura" required
+					class="w-full block px-3 py-2 bg-gray-100" min="0" value="0" placeholder="Frutas maduras" />
+				<br />
+
+				<label for="fruta_super_madura">Frutas maduras:</label>
+				<input type="number" name="fruta_super_madura" id="fruta_super_madura" required
+					class="w-full block px-3 py-2 bg-gray-100" min="0" value="0" placeholder="Frutas super maduras" />
+				<br />
+
+				<label for="fruta_podre">Frutas podres:</label>
+				<input type="number" name="fruta_podre" id="fruta_podre" required
+					class="w-full block px-3 py-2 bg-gray-100" min="0" value="0" placeholder="Frutas podres" />
+				<br />
                 <button class="w-full block rounded-md py-3 bg-green-600
                 uppercase text-white font-bold cursor-pointer mb-4" type="submit">Guardar</button>
             </form>
         </div>
-    </div>
+    </div> -->
+	
 </div>
 
 <script>
