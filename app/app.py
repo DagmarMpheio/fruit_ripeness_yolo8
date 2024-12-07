@@ -268,7 +268,7 @@ def fetch_data_from_db():
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     cursor.execute(
-        'SELECT sum(n_com_capacete), sum(n_sem_capacete) FROM relatorio')
+        'SELECT sum(fruta_verde), sum(fruta_semi_madura) FROM relatorio')
     data = cursor.fetchone()
     conn.close()
     return data
@@ -287,25 +287,29 @@ def fetch_all_data_from_db():
 def relatorio():
     dados_tabela = fetch_all_data_from_db()
     totals = fetch_data_from_db()
-    lista = [totals[0], totals[1]]
+    lista = [totals[0], totals[1], totals[2], totals[3], totals[4]]
     dados = [0 if i is None else i for i in lista]
     totalSoma = sum(dados)
     if (totalSoma == 0):
         return render_template("relatorio.html", message='Sem resultados para o relatorio')
     else:
-        values = [totals[0], totals[1]]
-        totalCapacete = (totals[0] / sum(values)) * 100
-        totalSemCapacete = (totals[1] / sum(values)) * 100
-        valueTotal = [totalCapacete, totalSemCapacete]
+        values = [totals[0], totals[1], totals[2], totals[3], totals[4]]
+        totalFrutaVerde = (totals[0] / sum(values)) * 100
+        totalFrutaSemiMadura = (totals[1] / sum(values)) * 100
+        totalFrutaMadura = (totals[2] / sum(values)) * 100
+        totalFrutaSuperMadura = (totals[3] / sum(values)) * 100
+        totalFrutaPodre = (totals[4] / sum(values)) * 100
+        valueTotal = [totalFrutaVerde, totalFrutaSemiMadura,
+                      totalFrutaMadura, totalFrutaSuperMadura, totalFrutaPodre]
         print("valueTotal: ", sum(values))
         # print(len(values))
         data = {
 
-            "labels": ['Com capacete {}%'.format(round(totalCapacete, 2)), 'Sem capacete {} %'.format(round(totalSemCapacete, 2))],
+            "labels": ['Fruta Verde {}%'.format(round(totalFrutaVerde, 2)), 'Fruta Semi Madura {} %'.format(round(totalFrutaSemiMadura, 2)), 'Fruta Madura {} %'.format(round(totalFrutaMadura, 2)), 'Fruta Super Madura {} %'.format(round(totalFrutaSuperMadura, 2)), 'Fruta Podre {} %'.format(round(totalFrutaPodre, 2))],
             "datasets": [
 
                 {
-                    "label": "Relatório dos Motoqueiros Detectados",
+                    "label": "Relatório do Estado de Maturação das Frutas",
                     "borderWidth": 1,
                     "fillColor": "rgba(220,220,220,0.5)",
                     "backgroundColor": ['#16a34a', '#dc2626', 'yellow', 'purple'],
@@ -313,7 +317,7 @@ def relatorio():
                 },
             ]
         }
-        return render_template("relatorio.html", data=data, dados_tabela=dados_tabela, totalCapacete=totals[0], totalSemCapacete=totals[1], total=sum(values))
+        return render_template("relatorio.html", data=data, dados_tabela=dados_tabela, totalFrutaVerde=totals[0], totalFrutaSemiMadura=totals[1], totalFrutaMadura=totals[2], totalFrutaSuperMadura=totals[3], totalFrutaPodre=totals[4], total=sum(values))
 
 
 with sqlite3.connect(DATABASE) as conn:
@@ -322,8 +326,11 @@ with sqlite3.connect(DATABASE) as conn:
         CREATE TABLE IF NOT EXISTS relatorio (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             imagem TEXT NOT NULL,
-            n_com_capacete INTEGER,
-            n_sem_capacete INTEGER,
+            fruta_verde INTEGER,
+            fruta_semi_madura INTEGER,
+            fruta_madura INTEGER,
+            fruta_super_madura INTEGER,
+            fruta_podre INTEGER,
             criado_em DATE DEFAULT CURRENT_TIMESTAMP
         )
     ''')
@@ -342,8 +349,11 @@ def guardar():
 
         # imagem = image.filename
         imagem = request.form.get('imagem')
-        n_com_capacete = request.form.get('n_com_capacete', '')
-        n_sem_capacete = request.form.get('n_sem_capacete', '')
+        fruta_verde = request.form.get('fruta_verde', '')
+        fruta_semi_madura = request.form.get('fruta_semi_madura', '')
+        fruta_madura = request.form.get('fruta_madura', '')
+        fruta_super_madura = request.form.get('fruta_super_madura', '')
+        fruta_podre = request.form.get('fruta_podre', '')
 
         # Save the image to the upload folder
         # image.save(os.path.join(UPLOAD_PATH, imagem))
@@ -352,7 +362,7 @@ def guardar():
         with sqlite3.connect(DATABASE) as conn:
             cursor = conn.cursor()
             cursor.execute(
-                'INSERT INTO relatorio (imagem, n_com_capacete, n_sem_capacete) VALUES (?, ?, ?)', (imagem, n_com_capacete, n_sem_capacete))
+                'INSERT INTO relatorio (imagem, fruta_verde, fruta_semi_madura, fruta_madura, fruta_super_madura, fruta_podre) VALUES (?, ?, ?, ?, ?, ?)', (imagem, fruta_verde, fruta_semi_madura, fruta_madura, fruta_super_madura, fruta_podre))
             conn.commit()
 
         return redirect(url_for('relatorio'))
