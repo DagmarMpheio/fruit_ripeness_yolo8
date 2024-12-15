@@ -67,9 +67,12 @@
                         <thead class="border-b font-medium bg-zinc-500 dark:border-blue-500 dark:text-blue-500" style="position: sticky; top:0; z-index: 2;">
                             <tr class="text-white">
                                 <th scope="col" class=" px-6 py-1">#</th>
-                                <th scope="col" class=" px-6 py-1">Nome da Imagem/Vídeo</th>
-                                <th scope="col" class=" px-6 py-1">Detenções com Capacete</th>
-                                <th scope="col" class=" px-6 py-1">Detenções sem Capacete</th>
+                                <th scope="col" class=" px-6 py-1">Nome do ficheiro</th>
+                                <th scope="col" class=" px-6 py-1">Fruta verde</th>
+                                <th scope="col" class=" px-6 py-1">Fruta semi madura</th>
+                                <th scope="col" class=" px-6 py-1">Fruta madura</th>
+                                <th scope="col" class=" px-6 py-1">Fruta super madura</th>
+                                <th scope="col" class=" px-6 py-1">Fruta podre madura</th>
                                 <th scope="col" class=" px-6 py-1">Data</th>
                                 <th scope="col" class=" px-6 py-1">Acções</th>
                             </tr>
@@ -82,6 +85,9 @@
                                 <td class="whitespace-nowrap  px-6 py-1">{{dados[2]}}</td>
                                 <td class="whitespace-nowrap  px-6 py-1">{{dados[3]}}</td>
                                 <td class="whitespace-nowrap  px-6 py-1">{{dados[4]}}</td>
+                                <td class="whitespace-nowrap  px-6 py-1">{{dados[5]}}</td>
+                                <td class="whitespace-nowrap  px-6 py-1">{{dados[6]}}</td>
+                                <td class="whitespace-nowrap  px-6 py-1">{{dados[6]}}</td>
                                         
                                 <td class="whitespace-nowrap  px-6 py-1">
                                     <form action="{{ url_for('delete_history', id=dados[0]) }}" method="post">

@@ -268,7 +268,7 @@ def fetch_data_from_db():
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     cursor.execute(
-        'SELECT sum(fruta_verde), sum(fruta_semi_madura) FROM relatorio')
+        'SELECT sum(fruta_verde), sum(fruta_semi_madura), sum(fruta_madura), sum(fruta_super_madura), sum(fruta_podre) FROM relatorio')
     data = cursor.fetchone()
     conn.close()
     return data
