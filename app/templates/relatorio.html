@@ -31,7 +31,7 @@
             overflow: auto;
         }
     </style>
-    <h2 class="text-2xl font-bold text-center pb-3 px-4">Histórico de Detecção</h2>
+    <h2 class="text-2xl font-bold text-center pb-3 px-4 uppercase py-2 text-orange-500">Histórico de Detecção</h2>
     <!-- 
     
     <div class="max-w-3xl mx-auto rounded-lg">
@@ -57,17 +57,17 @@
 </div>
 </div>
  -->
-    <div class="max-w-3xl mx-auto rounded-lg shadow-sm mb-4">
+    <div class="max-w-4xl mx-auto rounded-lg shadow-sm mb-4">
         <!-- Ajuste a largura da tabela conforme necessário -->
-        <div class="overflow-x-auto  sm:-mx-6 lg:-mx-8">
+        <div class="overflow-x-auto  sm:-mx-6 lg:-mx-10">
             <div class="inline-block min-w-full sm:px-2 lg:px-8">
                 <div class="scrollable-table">
                     <!-- Ajuste a largura da    tabela conforme necessário -->
                     <table class="min-w-full text-center text-sm font-light">
-                        <thead class="border-b font-medium bg-zinc-500 dark:border-blue-500 dark:text-blue-500" style="position: sticky; top:0; z-index: 2;">
+                        <thead class="border-b font-medium bg-gradient-to-r from-green-400 via-yellow-400 to-orange-400 dark:border-green-700 dark:text-green-500" style="position: sticky; top:0; z-index: 2;">
                             <tr class="text-white">
                                 <th scope="col" class=" px-6 py-1">#</th>
-                                <th scope="col" class=" px-6 py-1">Nome do ficheiro</th>
+                                <!-- <th scope="col" class=" px-6 py-1">Nome do ficheiro</th> -->
                                 <th scope="col" class=" px-6 py-1">Fruta verde</th>
                                 <th scope="col" class=" px-6 py-1">Fruta semi madura</th>
                                 <th scope="col" class=" px-6 py-1">Fruta madura</th>
@@ -79,15 +79,15 @@
                         </thead>
                         <tbody>
                             {% for dados in dados_tabela%}
-                            <tr class="border-b dark:border-blue-500">
+                            <tr class="border-b dark:border-green-500">
                                 <td class="whitespace-nowrap  px-6 py-1 font-medium">{{ loop.index }}</td>
-                                <td class="whitespace-nowrap  px-6 py-1">{{dados[1]}}</td>
+                                <!-- <td class="whitespace-nowrap  px-6 py-1">{{dados[1]}}</td> -->
                                 <td class="whitespace-nowrap  px-6 py-1">{{dados[2]}}</td>
                                 <td class="whitespace-nowrap  px-6 py-1">{{dados[3]}}</td>
                                 <td class="whitespace-nowrap  px-6 py-1">{{dados[4]}}</td>
                                 <td class="whitespace-nowrap  px-6 py-1">{{dados[5]}}</td>
                                 <td class="whitespace-nowrap  px-6 py-1">{{dados[6]}}</td>
-                                <td class="whitespace-nowrap  px-6 py-1">{{dados[6]}}</td>
+                                <td class="whitespace-nowrap  px-6 py-1">{{dados[7]}}</td>
                                         
                                 <td class="whitespace-nowrap  px-6 py-1">
                                     <form action="{{ url_for('delete_history', id=dados[0]) }}" method="post">
@@ -102,18 +102,28 @@
                     </table>
                 </div>
             </div>
-        </div>   
-        <div class="flex flex-row mt-4 items-center justify-between">
-            <p class="text-lg font-bold">Total sem capacete: {{totalSemCapacete}}</p>
-            <p class="text-lg font-bold">Total com capacete: {{totalCapacete}}</p>
-            <p class="text-lg font-bold">Total: {{total}}</p>
+        </div>  
+        <div class="px-4 py-2">
+            <div class="flex flex-row mt-4 items-center justify-between">
+                <p class="text-lg font-bold">Total fruta verde: {{totalFrutaVerde}}</p>
+                <p class="text-lg font-bold">Total fruta semi madura: {{totalFrutaSemiMadura}}</p>
+                <p class="text-lg font-bold">Total fruta madura: {{totalFrutaMadura}}</p>
+            </div>
+            
+            <div class="flex flex-row mt-4 items-center justify-between">
+                    <p class="text-lg font-bold">Total fruta super madura: {{totalFrutaSuperMadura}}</p>
+                <p class="text-lg font-bold">Total fruta podre: {{totalFrutaPodre}}</p>
+                <p class="text-lg font-bold">Total: {{total}}</p>
+            </div>
+        </div> 
+            
         </div>
  
     </div>
 
     <!-- Graficos -->
-    <div class="max-w-3xl mx-auto py-4">
-        <div class="flex flex-col items-center mx-auto max-w-screen-md">
+    <div class="max-w-4xl mx-auto py-4 pb-8">
+        <div class="flex flex-col items-center mx-auto max-w-screen-lg">
             <div class="w-full h-96">
                 <h2 class="text-2xl mb-2 font-bold text-center">Relatório Gráfico</h2>
                 <div class="w-full h-full">
