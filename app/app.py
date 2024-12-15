@@ -123,7 +123,7 @@ def deteccao():
                 out = cv2.VideoWriter(
                     'static/deteccoes-videos/'+f.filename, fourcc, 30.0, (frame_width, frame_height))
 
-                # YOLO na Detenção de imagens como base no modelo escolhido
+                # YOLO na Detecção de imagens como base no modelo escolhido
                 if modelo_nome == 'Medium':
                     model = YOLO('M_best.pt')
                 elif modelo_nome == 'Nano':
@@ -136,7 +136,7 @@ def deteccao():
                     if not ret:
                         break
 
-                    # Fazer a detenção do YOLO vc8 nos frames aqui
+                    # Fazer a detecção do YOLO vc8 nos frames aqui
                     results = model(frame, save=True)
                     print("results: ", results)
                     cv2.waitKey(1)
@@ -387,7 +387,7 @@ def delete_history(id):
 def get_frame():
     folder_path = os.getcwd()
     mp4_files = 'output.mp4'
-    video = cv2.VideoCapture(mp4_files)  # caminho de detenção de video
+    video = cv2.VideoCapture(mp4_files)  # caminho de detecção de video
     while True:
         success, image = video.read()
         if not success:
