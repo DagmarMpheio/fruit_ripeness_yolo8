@@ -28,6 +28,10 @@ DATABASE = os.path.join(DATABASE_PATH, 'fruits.db')
 def home():
     return render_template("index.html")
 
+@app.route('/about')
+def about():
+    return render_template("about.html")
+
 
 # metodo de classificacao do modelo
 imgpath = None  # Definir uma variável global para armazenar o nome do arquivo
