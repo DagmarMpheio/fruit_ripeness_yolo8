@@ -1,1 +1,1 @@
-![Uploading FruitRipenessGif.gif…]()
+<img src="FruitRipenessGif.gif">
