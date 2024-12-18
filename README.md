@@ -1,1 +1,2 @@
-<img src="FruitRipenessGif.gif">
+# Demostrativo da APP
+<img src="FruitRipenessGif.gif" width=640>
